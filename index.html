@@ -17,20 +17,102 @@
             background-color: #f4f6f9;
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            display: flex; /* Flexbox creates the sidebar layout */
+            min-height: 100vh;
         }
 
-        /* Container to keep content centered and readable */
+        /* --- SIDEBAR STYLING --- */
+        .sidebar {
+            width: 260px;
+            background-color: #1e3a8a; /* Deep classic blue */
+            color: #ffffff;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding-left: 20px; /* Slight nudge animation */
+        }
+
+        /* Highlights the current active page */
+        .sidebar a.active {
+            background-color: #3b82f6; /* Bright accent blue */
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0; /* Prevents flex items from breaking layout bounds */
+        }
+
+        /* Mobile top bar for the menu button */
+        .mobile-header {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            display: none;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .menu-toggle {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
         .container {
             max-width: 1000px;
+            width: 100%;
             margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        .content-card {
             background: #ffffff;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Header Styling */
         header {
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 15px;
@@ -38,7 +120,7 @@
         }
 
         h1 {
-            color: #1e3a8a; /* Deep classic blue */
+            color: #1e3a8a;
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 5px;
@@ -49,9 +131,7 @@
             font-size: 1rem;
         }
 
-        /* Responsive iFrame Wrapper */
         .iframe-container {
-            position: relative;
             width: 100%;
             border-radius: 8px;
             overflow: hidden;
@@ -66,33 +146,110 @@
             display: block;
         }
 
-        /* Footer info */
         footer {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
             font-size: 0.85rem;
             color: #94a3b8;
+        }
+
+        /* --- RESPONSIVE RESPONSIVENESS (MOBILE) --- */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 53px; /* Sits directly below mobile top bar */
+                left: 0;
+                bottom: 0;
+                transform: translateX(-100%); /* Hides it off-screen */
+                width: 100%;
+                max-width: 280px;
+            }
+
+            /* Class added via JS to slide menu into view */
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            
+            .content-card {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Geschiedenis 5 Doorstroom</h1>
-            <p class="subtitle">Overzicht van het online lesmateriaal en documenten</p>
-        </header>
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <h2>Geschiedenis 5</h2>
+        <nav>
+            <a href="index.html" class="active">📚 Lesmateriaal</a>
+            <a href="planning.html">📅 Jaarplanning</a>
+            <a href="opdrachten.html">📝 Opdrachten</a>
+            <a href="links.html">🔗 Handige Links</a>
+            <a href="contact.html">✉️ Contact</a>
+        </nav>
+    </aside>
 
-        <main>
-            <div class="iframe-container">
-                <iframe src="https://drive.google.com/embeddedfolderview?id=1cPF4c9RCx9DAeGfsRnHiXLm0oFspv8dy"></iframe>
+    <!-- Main Section Wrapper -->
+    <div class="main-wrapper">
+        
+        <!-- Only visible on mobile devices -->
+        <div class="mobile-header">
+            <button class="menu-toggle" id="menuBtn">☰ Menu</button>
+        </div>
+
+        <div class="container">
+            <div class="content-card">
+                <header>
+                    <h1>Lesmateriaal</h1>
+                    <p class="subtitle">Overzicht van het online lesmateriaal en documenten</p>
+                </header>
+
+                <main>
+                    <div class="iframe-container">
+                        <iframe src="https://drive.google.com/embeddedfolderview?id=1cPF4c9RCx9DAeGfsRnHiXLm0oFspv8dy"></iframe>
+                    </div>
+                </main>
+
+                <footer>
+                    <p>&copy; 2026 - Online Lesmateriaal</p>
+                </footer>
             </div>
-        </main>
-
-        <footer>
-            <p>&copy; 2026 - Online Lesmateriaal</p>
-        </footer>
+        </div>
     </div>
+
+    <!-- Small script to handle the mobile menu toggle -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            // Change button text depending on menu state
+            if(sidebar.classList.contains('open')) {
+                menuBtn.textContent = '✕ Sluiten';
+            } else {
+                menuBtn.textContent = '☰ Menu';
+            }
+        });
+    </script>
 
 </body>
 </html>
